@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>KARAKORAM INTERNATIONAL UNIVERSITY - Examination Portal</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+  <style>
+    :root { --primary-dark: #1e1642; --accent-color: #f39c12; --light-bg: #f8f9fa; }
+    
+    body { 
+      font-family: 'Segoe UI', sans-serif; 
+      background-color: var(--light-bg); 
+      overflow-x: hidden; 
+      display: flex; 
+      flex-direction: column; 
+      min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    main { flex: 1; }
+
+    /* Top Utility Bar - Clean Auto Wrap */
+    .top-bar { background-color: #ffffff; border-bottom: 1px solid #eeeeee; padding: 6px 0; font-size: 12px; }
+    .top-bar a { color: var(--primary-dark); text-decoration: none; font-weight: 500; margin-left: 15px; display: inline-block; }
+    .top-bar a i { color: var(--accent-color); margin-right: 4px; }
+    
+    /* Responsive Logo Header Configuration */
+    .main-header { background-color: #ffffff; padding: 12px 0; }
+    .brand-container { display: flex; align-items: center; flex-wrap: wrap; }
+    
+    .logo-container {
+      width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; 
+      justify-content: center; margin-right: 15px; overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 2px solid #eeeeee; background: #fff;
+    }
+    .logo-container img { width: 100%; height: 100%; object-fit: contain; }
+    
+    .brand-text h1 { font-size: 20px; font-weight: 700; color: #0d47a1; margin: 0; line-height: 1.2; }
+    .brand-text p { font-size: 12px; font-weight: 600; color: #e67e22; margin: 2px 0 0 0; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* Multi-screen Fluid Navigation */
+    .navbar-custom { background-color: var(--primary-dark); padding: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+    .navbar-custom .container { display: block !important; padding: 0; }
+    .navbar-custom .navbar-nav { flex-direction: row !important; margin: 0; padding: 0; }
+    .navbar-custom .nav-item { flex: 1; text-align: center; min-width: 100px; }
+    .navbar-custom .nav-link { color: #ffffff !important; font-size: 13px; font-weight: 600; padding: 14px 10px !important; display: block; border-bottom: 3px solid transparent; transition: all 0.2s ease; }
+    .navbar-custom .nav-link:hover { background-color: rgba(255, 255, 255, 0.04); color: var(--accent-color) !important; }
+    .navbar-custom .nav-link.active { background-color: rgba(255, 255, 255, 0.08); border-bottom-color: var(--accent-color); }
+    
+    /* Hero Image Dynamic Slider height adjustment */
+    .hero-slider-container { background: #000; height: 320px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .carousel-item { height: 320px; }
+    .carousel-item img { object-fit: cover; width: 100%; height: 100%; filter: brightness(55%); }
+    .carousel-caption { bottom: 15%; left: 8%; right: 8%; text-align: left; padding-bottom: 10px; }
+    .carousel-caption h2 { font-size: 28px; font-weight: 800; text-shadow: 2px 2px 8px rgba(0,0,0,0.7); }
+    .carousel-caption p { font-size: 14px; text-shadow: 1px 1px 5px rgba(0,0,0,0.6); color: #f1f3f5; margin-bottom: 0; }
+
+    /* Layout Cards and Shells */
+    .content-section { background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+    .message-box { border-left: 5px solid var(--accent-color); background-color: #fdfdfd; padding: 16px; border-radius: 0 8px 8px 0; }
+    
+    /* UI Verification Card Structuring */
+    .official-card { border: 2px solid var(--primary-dark); border-radius: 8px; background-color: #fff; overflow: hidden; }
+    .official-header { background-color: var(--primary-dark); color: #fff; padding: 15px; text-align: center; border-bottom: 3px solid var(--accent-color); }
+    
+    /* Dynamic Grid Matrix Layout for Transcripts (Perfect Desktop & Grid-based Mobile List fallback) */
+    .result-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background-color: #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+    .grid-cell { background-color: #ffffff; padding: 12px; font-size: 14px; }
+    .grid-label { font-weight: 600; color: #4a5568; font-size: 11px; text-transform: uppercase; margin-bottom: 4px; display: block; letter-spacing: 0.5px; }
+    .grid-value { font-weight: 500; color: #1a202c; word-break: break-word; }
+    .grid-header-title { background-color: #f8fafc !important; font-weight: 700; color: var(--primary-dark); }
+
+    /* Custom Contact Blocks */
+    .contact-card { border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; padding: 14px; display: flex; align-items: center; }
+    .contact-icon { width: 44px; height: 44px; background-color: #f39c12; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 16px; flex-shrink: 0; }
+
+    /* Footer Navigation Styling */
+    .bottom-ribbon-footer { background-color: #110d26; color: #b0aec4; font-size: 13px; padding: 15px 0; border-top: 3px solid var(--accent-color); margin-top: auto; }
+    .bottom-ribbon-footer .dev-credit { color: #ffffff; text-decoration: none; font-weight: 600; }
+
+    /* RESPONSIVE BREAKPOINTS ENGINE */
+    @media (max-width: 991.98px) {
+      .result-grid-container { grid-template-columns: repeat(2, 1fr); }
+      .carousel-caption h2 { font-size: 24px; }
+    }
+    
+    @media (max-width: 575.98px) {
+      .top-bar { display: none; }
+      .main-header { padding: 10px 0; text-align: center; }
+      .brand-container { justify-content: center; text-align: center; flex-direction: column; }
+      .logo-container { margin-right: 0; margin-bottom: 10px; width: 60px; height: 60px; }
+      .brand-text h1 { font-size: 17px; }
+      .brand-text p { font-size: 11px; }
+      .hero-slider-container, .carousel-item { height: 200px; }
+      .carousel-caption { bottom: 10%; left: 5%; right: 5%; }
+      .carousel-caption h2 { font-size: 18px; }
+      .carousel-caption p { font-size: 11px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .content-section { padding: 15px !important; margin-top: -15px; position: relative; z-index: 10; border-radius: 12px 12px 8px 8px; }
+      .result-grid-container { grid-template-columns: 1fr; gap: 0; }
+      .grid-cell { border-bottom: 1px solid #edf2f7; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; text-align: right; }
+      .grid-label { margin-bottom: 0; font-size: 12px; text-align: left; }
+      .grid-value { font-size: 13px; max-width: 65%; }
+      .grid-cell.full-width-cell { flex-direction: column; align-items: flex-start; text-align: left; }
+      .grid-cell.full-width-cell .grid-value { max-width: 100%; margin-top: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div><span class="text-muted"><i class="fa-solid fa-clock me-1"></i> Examination System Portal</span></div>
+      <div class="d-flex"><a href="#"><i class="fa-solid fa-building-columns"></i> Affiliated Institutions</a><a href="#"><i class="fa-solid fa-file-signature"></i> Affiliation Procedure</a></div>
+    </div>
+  </div>
+
+  <header class="main-header animate__animated animate__fadeInDown">
+    <div class="container">
+      <div class="brand-container">
+        <div class="logo-container animate__animated animate__zoomIn">
+          <img src="https://lh3.googleusercontent.com/d/1LG3EUy2m2xDODyo7LH2Cc0QE-KmsWEHo" alt="KIU Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/70?text=KIU';">
+        </div>
+        <div class="brand-text">
+          <h1>KARAKORAM INTERNATIONAL UNIVERSITY</h1>
+          <p>EXTERNAL EXAMINATION SECTION</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="navbar navbar-custom sticky-top">
+    <div class="container">
+      <ul class="navbar-nav" id="portalTabs" role="tablist">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#homeTab" onclick="toggleHero(true)"><i class="fa-solid fa-house me-1"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#resultTab" onclick="toggleHero(false)"><i class="fa-solid fa-square-poll-horizontal me-1"></i> Result</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#syllabusTab" onclick="loadSyllabus(); toggleHero(false);"><i class="fa-solid fa-book me-1"></i> Syllabus</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#notificationsTab" onclick="loadNotifications(); toggleHero(false);"><i class="fa-solid fa-bell me-1"></i> Alerts</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#contactTab" onclick="loadContacts(); toggleHero(false);"><i class="fa-solid fa-envelope me-1"></i> Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="heroSliderSection" class="hero-slider-container">
+    <div id="homeCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="4000">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Campus">
+          <div class="carousel-caption">
+            <h2 class="animate__animated animate__fadeInLeft text-white">Welcome to KIU</h2>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Empowering generations through advanced verified certification frameworks.</p>
+          </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+          <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Exams">
+          <div class="carousel-caption">
+            <h2 class="animate__animated animate__fadeInDown text-warning">Transparency First</h2>
+            <p class="animate__animated animate__fadeInUp animate__delay-1s">Our database validation structure tracks academic performance with extreme precision.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container my-3 my-sm-5">
+    <div class="tab-content content-section p-3 p-sm-4 bg-white">
+      
+      <div class="tab-pane fade show active" id="homeTab">
+        <div id="homeLoader" class="text-center text-muted my-4"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading data...</div>
+        
+        <div id="homeMainContent" class="d-none">
+          <div class="row g-3 g-sm-4">
+            <div class="col-md-6">
+              <div class="card h-100 border-0 bg-light p-2 shadow-sm" style="border-top: 4px solid #3f51b5 !important;">
+                <div class="card-body">
+                  <h5 class="fw-bold text-primary mb-2"><i class="fa-solid fa-eye me-2 text-warning"></i> <span id="visionTitle">Vision</span></h5>
+                  <p id="visionText" class="text-secondary small lh-base mb-0"></p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card h-100 border-0 bg-light p-2 shadow-sm" style="border-top: 4px solid #2e7d32 !important;">
+                <div class="card-body">
+                  <h5 class="fw-bold text-success mb-2"><i class="fa-solid fa-bullseye me-2 text-danger"></i> <span id="missionTitle">Mission</span></h5>
+                  <p id="missionText" class="text-secondary small lh-base mb-0"></p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-12 mt-4">
+              <div class="message-box mb-3 shadow-sm">
+                <h5 class="fw-bold" style="color: var(--primary-dark);"><i class="fa-solid fa-user-tie me-2 text-primary"></i> <span id="vcTitle">VC Message</span></h5>
+                <p id="vcText" class="text-secondary mt-1 small lh-base mb-0" style="font-style: italic;"></p>
+              </div>
+              
+              <div class="message-box shadow-sm" style="border-left-color: #9b59b6;">
+                <h5 class="fw-bold" style="color: var(--primary-dark);"><i class="fa-solid fa-id-card-clip me-2 text-purple"></i> <span id="controllerTitle">Controller Message</span></h5>
+                <p id="controllerText" class="text-secondary mt-1 small lh-base mb-0" style="font-style: italic;"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="resultTab">
+        <div class="row justify-content-center">
+          <div class="col-md-11">
+            <div class="card bg-light border-0 p-3 p-sm-4 mb-4 mx-auto shadow-sm" style="border-radius: 8px; max-width: 580px;">
+              <div class="text-center mb-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/3413/3413535.png" alt="Identity" style="width: 50px; height: 50px; margin-bottom: 5px;">
+                <h5 class="fw-bold text-dark mb-0">Search Online Result</h5>
+              </div>
+              <div class="mb-2"><label class="form-label text-secondary small fw-semibold mb-1">Exam Year</label><select id="examYear" class="form-select form-select-sm"><option selected disabled>Loading...</option></select></div>
+              <div class="mb-2"><label class="form-label text-secondary small fw-semibold mb-1">Exam Type</label><select id="examType" class="form-select form-select-sm"><option selected disabled>Loading...</option></select></div>
+              <div class="mb-2"><label class="form-label text-secondary small fw-semibold mb-1">Group / Session</label><select id="examGroup" class="form-select form-select-sm"><option selected disabled>Loading...</option></select></div>
+              <div class="mb-3"><label class="form-label text-secondary small fw-semibold mb-1">Roll Number</label><input type="tel" id="rollNo" class="form-control form-control-sm" placeholder="e.g. 50121"></div>
+              <button class="btn btn-primary w-100 btn-sm text-white py-2 shadow-sm" style="background-color: var(--primary-dark); font-weight: 600; border: none;" onclick="getOnlineResult()">View Marks sheet</button>
+            </div>
+            <div id="resultDisplayArea"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="syllabusTab">
+        <h5 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="fa-solid fa-graduation-cap me-2 text-warning"></i>Curriculum Studies Registry</h5>
+        <div id="syllabusLoading" class="text-center text-muted my-3 d-none"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading...</div>
+        <div class="table-responsive bg-white rounded border"><table class="table table-hover align-middle mb-0 small"><thead style="background-color: var(--primary-dark); color: white;"><tr><th>Title</th><th>Details</th><th class="text-center">Download</th></tr></thead><tbody id="syllabusTableBody"></tbody></table></div>
+      </div>
+
+      <div class="tab-pane fade" id="notificationsTab">
+        <h5 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="fa-solid fa-bullhorn me-2 text-danger"></i>Official Notifications</h5>
+        <div id="notificationsLoading" class="text-center text-muted my-3 d-none"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading...</div>
+        <div class="list-group" id="notificationListContainer"></div>
+      </div>
+
+      <div class="tab-pane fade" id="contactTab">
+        <h5 class="fw-bold mb-3" style="color: var(--primary-dark);"><i class="fa-solid fa-address-book me-2 text-primary"></i>Administrative Directory</h5>
+        <div id="contactLoading" class="text-center text-muted my-3 d-none"><i class="fa-solid fa-spinner fa-spin me-2"></i>Loading...</div>
+        <div class="row g-3" id="contactCardContainer"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="bottom-ribbon-footer">
+    <div class="container text-center">
+      <span>Copyright © 2026 KIU | Developed By <a href="#" class="dev-credit">IT Section KIU</a>.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => { 
+      google.script.run.withSuccessHandler(populateHomeData).getHomeData();
+      google.script.run.withSuccessHandler(populateDropdowns).getDropdownLists();
+    });
+
+    function toggleHero(show) {
+      let hero = document.getElementById("heroSliderSection");
+      hero.style.display = show ? "block" : "none";
+    }
+
+    function populateDropdowns(lists) {
+      let yrSelect = document.getElementById("examYear"); 
+      let tySelect = document.getElementById("examType"); 
+      let gpSelect = document.getElementById("examGroup");
+      
+      yrSelect.innerHTML = `<option selected disabled>Choose Exam Year</option>`; 
+      tySelect.innerHTML = `<option selected disabled>Choose Exam Type</option>`; 
+      gpSelect.innerHTML = `<option selected disabled>Choose Group / Session</option>`;
+      
+      lists.years.forEach(yr => yrSelect.innerHTML += `<option value="${yr}">${yr}</option>`);
+      lists.examTypes.forEach(ty => tySelect.innerHTML += `<option value="${ty}">${ty}</option>`);
+      lists.groups.forEach(gp => gpSelect.innerHTML += `<option value="${gp}">${gp}</option>`);
+    }
+
+    function populateHomeData(data) {
+      document.getElementById("homeLoader").classList.add("d-none"); 
+      document.getElementById("homeMainContent").classList.remove("d-none");
+      if(data["Vision"]) { document.getElementById("visionTitle").innerText = data["Vision"].title; document.getElementById("visionText").innerText = data["Vision"].text; }
+      if(data["Mission"]) { document.getElementById("missionTitle").innerText = data["Mission"].title; document.getElementById("missionText").innerText = data["Mission"].text; }
+      if(data["VC Message"]) { document.getElementById("vcTitle").innerText = data["VC Message"].title; document.getElementById("vcText").innerText = data["VC Message"].text; }
+      if(data["Controller Message"]) { document.getElementById("controllerTitle").innerText = data["Controller Message"].title; document.getElementById("controllerText").innerText = data["Controller Message"].text; }
+    }
+
+    function getOnlineResult() {
+      let yr = document.getElementById("examYear").value; 
+      let ty = document.getElementById("examType").value; 
+      let gp = document.getElementById("examGroup").value; 
+      let rn = document.getElementById("rollNo").value;
+      let displayDiv = document.getElementById("resultDisplayArea");
+      
+      if(!yr || yr.includes("Choose") || !ty || ty.includes("Choose") || !gp || gp.includes("Choose") || !rn.trim()) { 
+        displayDiv.innerHTML = `<div class="alert alert-danger text-center fw-bold small">Please fill all fields!</div>`; 
+        return; 
+      }
+      displayDiv.innerHTML = `<div class="text-center text-muted my-3 small"><i class="fa-solid fa-circle-notch fa-spin me-2"></i>Searching Result Record...</div>`;
+      
+      google.script.run.withSuccessHandler(function(res) {
+        if(res.success) {
+          let remarkBadge = res.remarks.toString().toLowerCase() === 'pass' ? 'bg-success' : 'bg-danger';
+          
+          // Render data via specialized responsive Grid Matrix instead of plain table layout
+          displayDiv.innerHTML = `
+            <div class="card official-card shadow-md mt-3 animate__animated animate__fadeInUp">
+              <div class="official-header">
+                <h6 class="fw-bold mb-1">KIU EXAMINATION PORTAL</h6>
+                <div style="font-size: 11px; color: #ffca28; font-weight: 600;">PROVISIONAL STATEMENT OF MARKS</div>
+              </div>
+              
+              <div class="result-grid-container">
+                <div class="grid-cell"><span class="grid-label">Year</span><span class="grid-value">${res.year}</span></div>
+                <div class="grid-cell"><span class="grid-label">Exam Type</span><span class="grid-value">${res.examType}</span></div>
+                <div class="grid-cell"><span class="grid-label">Group/Session</span><span class="grid-value">${res.group}</span></div>
+                <div class="grid-cell"><span class="grid-label">Roll Number</span><span class="grid-value text-primary fw-bold">${res.rollNo}</span></div>
+                
+                <div class="grid-cell full-width-cell"><span class="grid-label">Student Name</span><span class="grid-value fw-semibold text-dark">${res.name}</span></div>
+                <div class="grid-cell full-width-cell"><span class="grid-label">Father Name</span><span class="grid-value">${res.fName}</span></div>
+                
+                <div class="grid-cell full-width-cell"><span class="grid-label">Institution / College</span><span class="grid-value small">${res.institute}</span></div>
+                <div class="grid-cell"><span class="grid-label">Program Class</span><span class="grid-value">${res.programClass}</span></div>
+                
+                <div class="grid-cell grid-header-title"><span class="grid-label">Obtained Marks</span><span class="grid-value text-success fw-bold">${res.obtMarks}</span></div>
+                <div class="grid-cell grid-header-title"><span class="grid-label">Total Marks</span><span class="grid-value fw-bold">${res.totalMarks}</span></div>
+                <div class="grid-cell grid-header-title"><span class="grid-label">Grade</span><span class="badge bg-primary px-2 py-1">${res.grade}</span></div>
+                <div class="grid-cell grid-header-title"><span class="grid-label">Status</span><span class="badge ${remarkBadge} px-2 py-1">${res.remarks}</span></div>
+              </div>
+              
+              <div class="card-footer bg-light text-center py-2">
+                <button class="btn btn-dark btn-sm" onclick="window.print()"><i class="fa-solid fa-print me-1"></i> Print Transcript</button>
+              </div>
+            </div>`;
+        } else { 
+          displayDiv.innerHTML = `<div class="alert alert-danger text-center fw-bold small animate__animated animate__shakeX">${res.message}</div>`; 
+        }
+      }).searchOnlineResult(yr, ty, gp, rn);
+    }
+
+    function loadSyllabus() {
+      let loader = document.getElementById("syllabusLoading"); let tbody = document.getElementById("syllabusTableBody");
+      loader.classList.remove("d-none"); tbody.innerHTML = "";
+      google.script.run.withSuccessHandler(function(data) {
+        loader.classList.add("d-none");
+        if(data.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted">No records.</td></tr>`; return; }
+        data.forEach(item => { tbody.innerHTML += `<tr><td><strong>${item.title}</strong></td><td>${item.details}</td><td class="text-center"><a href="${item.link}" target="_blank" class="btn btn-xs btn-outline-primary py-0 px-2 small"><i class="fa-solid fa-file-pdf"></i></a></td></tr>`; });
+      }).getSyllabusData();
+    }
+
+    function loadNotifications() {
+      let loader = document.getElementById("notificationsLoading"); let container = document.getElementById("notificationListContainer");
+      loader.classList.remove("d-none"); container.innerHTML = "";
+      google.script.run.withSuccessHandler(function(data) {
+        loader.classList.add("d-none");
+        if(data.length === 0) { container.innerHTML = `<div class="text-center text-muted small p-3">No alerts posted.</div>`; return; }
+        data.forEach(item => { container.innerHTML += `<div class="list-group-item p-2 mb-2 border rounded shadow-xs"><div class="d-flex w-100 justify-content-between mb-1"><h6 class="mb-0 fw-bold text-dark">${item.title}</h6><small class="badge bg-secondary" style="font-size:10px;">${item.date}</small></div><p class="mb-0 text-secondary small">${item.details}</p></div>`; });
+      }).getNotificationData();
+    }
+
+    function loadContacts() {
+      let loader = document.getElementById("contactLoading"); let container = document.getElementById("contactCardContainer");
+      loader.classList.remove("d-none"); container.innerHTML = "";
+      google.script.run.withSuccessHandler(function(data) {
+        loader.classList.add("d-none");
+        if(data.length === 0) { container.innerHTML = `<div class="text-center text-muted w-100 p-3 small">No directory records.</div>`; return; }
+        data.forEach(member => {
+          container.innerHTML += `
+            <div class="col-sm-6 col-md-4">
+              <div class="contact-card shadow-xs">
+                <div class="contact-icon me-2"><i class="fa-solid fa-user-tie"></i></div>
+                <div>
+                  <div class="fw-bold text-dark small line-clamp-1">${member.name}</div>
+                  <div class="text-muted text-uppercase" style="font-size:10px; font-weight:600;">${member.designation}</div>
+                  <a href="tel:${member.contactNo}" class="text-decoration-none text-primary small fw-bold" style="font-size:11px;"><i class="fa-solid fa-phone me-1"></i> ${member.contactNo}</a>
+                </div>
+              </div>
+            </div>`;
+        });
+      }).getContactData();
+    }
+  </script>
+</body>
+</html>
